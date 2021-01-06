@@ -44,7 +44,7 @@ $(document).ready(function () {
                     // on success of the data above, the response is interpreted into JSON representation
                     $("#policyResult").html(data.message);
 
-                    // setting the input values back to default
+                    // setting the input values back to default after completing process
                     $("#car_value").val(10000);
                     $("#tax_percent").val(0);
                     $("#installment").val(1)
