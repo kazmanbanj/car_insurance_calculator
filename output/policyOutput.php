@@ -1,14 +1,6 @@
 <?php
     // including the calculator logic in PHP built using OOP
-    include '../classes/CalculatePolicy.php';
-
-    // declaring an error function to display a validation error message to the user if any
-    function error($msg)
-    {
-        $response = array("message" => $msg);
-        // converting the error message to json format.
-        return json_encode($response);
-    }
+    include '../classes/Policy.php';
 
     // accessing the user input (gotten from script.js)
     $carValue = $_POST['carValue'];
@@ -17,15 +9,20 @@
     $specificDate = $_POST['specificDate'];
 
     // setting the Base price of policy when it is 11% or 13%. (13% is used every Friday 15-20 O’clock (user time))
-    if ('Friday 15:00:00' <= $specificDate && $specificDate <= 'Friday 20:00:00') {
-        $basePercent = 13;
+    if ($specificDate >= 'Friday 15:00:00' && $specificDate <= 'Friday 20:00:00') {
+        $basePrice = 13;
     }
     else {
-        $basePercent = 11;
+        $basePrice = 11;
     }
-
-    // instantiating the CalculatePolicy class as an object
-    $calculate = new CalculatePolicy($carValue, $taxPercent, $installment, $basePercent);
+    
+    // declaring an error function to display a validation error message to the user if any
+    function error($msg)
+    {
+        $response = array("message" => $msg);
+        // converting the error message to json format.
+        return json_encode($response);
+    }
 
     // form validation process (checking for any error from the user input)
     if ($carValue == '' || $taxPercent == '' || $installment == '') {
@@ -57,6 +54,9 @@
         die(error('<b>Please, installment payment must be less than or equal to 12.</b>'));
     }
 
+    // instantiating the CalculatePolicy class as an object
+    $calculate = new Policy($carValue, $taxPercent, $installment, $basePrice);
+
     // displaying result to the user     
     $message = "
             <h3><u>Output</u></h3>
@@ -87,11 +87,11 @@
     $message .= "
                     </tr>
                     <tr>
-                        <td>Base premium (". $calculate->basePercent(). "%)</td>
+                        <td>Base premium (". $basePrice. "%)</td>
                         <td>". $calculate->basePremium(). "</td>";
                         // looping through the number of installment payments the user entered
                         for($count=1; $count <= $installment; $count+=1) {
-                            $message .= '<td>'.$calculate->installBasePremium().'</td>';                         
+                            $message .= '<td>'.$calculate->installmentBasePremium().'</td>';                         
                         };
                         // end of looping
                     
@@ -102,7 +102,7 @@
                         <td>". $calculate->commission(). "</td>";
                         // looping through the number of installment payments the user entered
                         for($count=1; $count <= $installment; $count+=1) {
-                            $message .= '<td>'.$calculate->installCommission().'</td>';                         
+                            $message .= '<td>'.$calculate->installmentCommission().'</td>';                         
                         };
                         // end of looping
                     
@@ -113,7 +113,7 @@
                         <td>". $calculate->tax(). "</td>";
                         // looping through the number of installment payments the user entered
                         for($count=1; $count <= $installment; $count+=1) {
-                            $message .= '<td>'.$calculate->installTax().'</td>';                         
+                            $message .= '<td>'.$calculate->installmentTax().'</td>';                         
                         };
                         // end of looping
                     
@@ -123,10 +123,10 @@
                 <tfoot>
                     <tr>
                         <th>Total cost</th>
-                        <th>". $calculate->totalCost() ."</th>";
+                        <th>". $calculate->CalculateTotalCost() ."</th>";
                         // looping through the number of installment payments the user entered
                         for($count=1; $count <= $installment; $count+=1) {
-                            $message .= '<td>'.$calculate->totalInstall().'</td>';                         
+                            $message .= '<td>'.$calculate->CalculateTotalInstallment().'</td>';                         
                         };
                         // end of looping
                         

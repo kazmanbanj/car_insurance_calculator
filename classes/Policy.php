@@ -1,20 +1,14 @@
 <?php
 
-class CalculatePolicy {
-    private $carValue, $taxPercent, $installment, $basePercent;
+class Policy {
+    private $carValue, $taxPercent, $installment, $basePrice;
 
-    public function __construct($carValue, $taxPercent, $installment, $basePercent)
+    public function __construct($carValue, $taxPercent, $installment, $basePrice)
     {
         $this->carValue = $carValue;
         $this->taxPercent = $taxPercent;
         $this->installment = $installment;
-        $this->basePercent = $basePercent;
-    }
-
-    // getting the base percentage
-    public function basePercent()
-    {
-        return $this->basePercent;
+        $this->basePrice = $basePrice;
     }
 
     // getting the car value and formatting to 2 decimal places
@@ -26,56 +20,51 @@ class CalculatePolicy {
     // getting the base premium value
     public function basePremium()
     {        
-        $carValue = $this->carValue * $this->basePercent / 100;        
-        return str_replace(',', '', number_format($carValue, 2));
+        return str_replace(',', '', number_format(($this->carValue * $this->basePrice / 100), 2));
     }
 
     // getting the commission value
     public function commission()
     {
-        $calcCommission = $this->basePremium() * 0.17;
-        return str_replace(',', '', number_format($calcCommission, 2));
+        return str_replace(',', '', number_format(($this->basePremium() * 0.17), 2));
     }
 
     // getting the tax value
     public function tax()
     {
-        $calcTax = $this->basePremium() * $this->taxPercent / 100;
-        return str_replace(',', '', number_format($calcTax, 2));
+        return str_replace(',', '', number_format(($this->basePremium() * $this->taxPercent / 100), 2));
     }
 
     // getting the installment base premium
-    public function installBasePremium()
+    public function installmentBasePremium()
     {
         return str_replace(',', '', number_format(($this->basePremium() / $this->installment), 2));
     }
 
     // getting the installment commission
-    public function installCommission()
+    public function installmentCommission()
     {
         return str_replace(',', '', number_format(($this->commission() / $this->installment), 2));
     }
 
     // getting the installment tax
-    public function installTax()
+    public function installmentTax()
     {
         return str_replace(',', '', number_format(($this->tax() / $this->installment), 2));
     }
 
     // obtaining the total policy cost
-    public function totalCost()
+    public function CalculateTotalCost()
     {
         // Total cost of the policy (exluding car value)
-        $total = $this->basePremium() + $this->commission() + $this->tax();
-        return str_replace(',', '', number_format($total, 2));
+        return str_replace(',', '', number_format(($this->basePremium() + $this->commission() + $this->tax()), 2));
     }
 
     // obtaining the total installment cost
-    public function totalInstall()
+    public function CalculateTotalInstallment()
     {
         // Total cost of the installmental payment
-        $total = $this->installBasePremium() + $this->installCommission() + $this->installTax();
-        return str_replace(',', '', number_format($total, 2));
+        return str_replace(',', '', number_format(($this->installmentBasePremium() + $this->installmentCommission() + $this->installmentTax()), 2));
     }
 }
 ?>
