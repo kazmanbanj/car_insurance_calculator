@@ -1,6 +1,14 @@
 <?php
     // including the calculator logic in PHP built using OOP
     include '../classes/Policy.php';
+    
+    // declaring an error function to display a validation error message to the user if any
+    function error($msg)
+    {
+        $response = array("success" => false, "message" => $msg);
+        // encoding to json format.
+        return json_encode($response);
+    }
 
     // accessing the user input (gotten from script.js)
     $carValue = $_POST['carValue'];
@@ -14,14 +22,6 @@
     }
     else {
         $basePrice = 11;
-    }
-    
-    // declaring an error function to display a validation error message to the user if any
-    function error($msg)
-    {
-        $response = array("message" => $msg);
-        // converting the error message to json format.
-        return json_encode($response);
     }
 
     // form validation process (checking for any error from the user input)
@@ -140,6 +140,7 @@
     $response = array();
 
     // passing the message variable
+    $response["success"] = true;
     $response["message"] = $message;
 
     // echoing out the encoded response in JSON representation

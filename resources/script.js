@@ -47,7 +47,7 @@ $(document).ready(function () {
                     // setting the input values back to default after completing process
                     $("#car_value").val(10000);
                     $("#tax_percent").val(0);
-                    $("#installment").val(1)
+                    $("#installment").val(1);
                 }                
             }
         );
