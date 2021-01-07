@@ -9,6 +9,7 @@ $(document).ready(function () {
         var carValue = $("#car_value").val();
         var taxPercent = $("#tax_percent").val();
         var installment = $("#installment").val();
+        var basePrice = 11;
 
         // accessing the user time
         var d = new Date();
@@ -20,15 +21,20 @@ $(document).ready(function () {
 
         // where base price is 13% every Friday 15-20 O’clock (user time)
         var specificDate = day + ' ' + hours + ':' + minutes + ':' + seconds;
+
+        // setting the Base price to 13%. (13% is used every Friday 15-20 O’clock (user time))
+        if (specificDate >= 'Friday 15:00:00' && specificDate <= 'Friday 20:00:00') {
+            basePrice = 13;
+        };
         
         // sending an ajax post request to a local server (policyOutput.php) to process the user input
-        $.post("../insurance_calculator/output/policyOutput.php",
+        $.post("./output/policyOutput.php",
             {
                 // accessing the user input from above
                 carValue: carValue,
                 taxPercent: taxPercent,
                 installment: installment,
-                specificDate: specificDate
+                basePrice: basePrice
             },
             function(response){
                 // hide loading spinner when processing completed

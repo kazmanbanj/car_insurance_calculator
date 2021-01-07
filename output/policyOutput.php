@@ -5,29 +5,21 @@
     // declaring an error function to display a validation error message to the user if any
     function error($msg)
     {
-        $response = array("success" => false, "message" => $msg);
+        $response = array("message" => $msg);
         // encoding to json format.
         return json_encode($response);
     }
 
-    // accessing the user input (gotten from script.js)
+    // accessing the user input
     $carValue = $_POST['carValue'];
     $taxPercent = $_POST['taxPercent'];
     $installment = $_POST['installment'];
-    $specificDate = $_POST['specificDate'];
-
-    // setting the Base price of policy when it is 11% or 13%. (13% is used every Friday 15-20 O’clock (user time))
-    if ($specificDate >= 'Friday 15:00:00' && $specificDate <= 'Friday 20:00:00') {
-        $basePrice = 13;
-    }
-    else {
-        $basePrice = 11;
-    }
+    $basePrice = $_POST['basePrice'];
 
     // form validation process (checking for any error from the user input)
     if ($carValue == '' || $taxPercent == '' || $installment == '') {
         // this will stop the whole process and display the error message set below
-        die(error('<b>Please, fill the empty field.</b>'));
+        die(error('<b>Please, all fields are required.</b>'));
     }
     
     if ($carValue < 10000) {
@@ -140,7 +132,6 @@
     $response = array();
 
     // passing the message variable
-    $response["success"] = true;
     $response["message"] = $message;
 
     // echoing out the encoded response in JSON representation
