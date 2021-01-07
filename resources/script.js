@@ -40,6 +40,54 @@ $(document).ready(function () {
                 // setting the html content of the selected element for display
                 var data = JSON.parse(response);
                 if (data.status == "200") {
+                    // looping through the installment for number of installment columns
+                    var i = 1;
+                    var len = data.message.installment;
+                    var installment = "";
+                    for (; i <= len; i++) {
+                        installment += '<th>' + i +  ' installment</th>';
+                    }
+
+                    // looping through the installment for value
+                    var i = 1;
+                    var len = data.message.installment;
+                    var empty = "";
+                    for (; i <= len; i++) {
+                        empty += '<td></td>';
+                    }
+
+                    // looping through the installment for installment base premium
+                    var i = 1;
+                    var len = data.message.installment;
+                    var installment_base_premium = "";
+                    for (; i <= len; i++) {
+                        installment_base_premium += '<td>' + data.message.installment_base_premium + '</td>';
+                    }
+
+                    // looping through the installment for installment commission
+                    var i = 1;
+                    var len = data.message.installment;
+                    var installment_commission = "";
+                    for (; i <= len; i++) {
+                        installment_commission += '<td>' + data.message.installment_commission + '</td>';
+                    }
+
+                    // looping through the installment for installment tax
+                    var i = 1;
+                    var len = data.message.installment;
+                    var installment_tax = "";
+                    for (; i <= len; i++) {
+                        installment_tax += '<td>' + data.message.installment_tax + '</td>';
+                    }
+
+                    // looping through the installment for total installment
+                    var i = 1;
+                    var len = data.message.installment;
+                    var total_installment = "";
+                    for (; i <= len; i++) {
+                        total_installment += '<th>' + data.message.total_installment + '</th>';
+                    }
+
                     // setting the policy html template to display
                     var policyHtmlTemplate = `\
                         <h3><u>Output</u></h3>\
@@ -48,36 +96,36 @@ $(document).ready(function () {
                                 <tr>\
                                     <th></th>\
                                     <th>Policy</th>\
-                                    <th>${data.message.installment} installment</th>\
+                                    ${installment}\
                                 </tr>\
                             </thead>\
                             <tbody>\
                                 <tr>\
                                     <td>Value </td>\
-                                    <td> ${data.message.car_value} </td>\
-                                    <td></td>\
+                                    <td>${data.message.car_value}</td>\
+                                    ${empty}\
                                 </tr>\
                                 <tr>\
                                     <td>Base premium (${data.message.base_price}%)</td>\
                                     <td>${data.message.base_premium}</td>\
-                                    <td>${data.message.installment_base_premium}</td>\
+                                    ${installment_base_premium}\
                                 </tr>\
                                 <tr>\
                                     <td>Commission (17%)</td>\
                                     <td>${data.message.commission}</td>\
-                                    <td>${data.message.installment_commission}</td>\
+                                    ${installment_commission}\
                                 </tr>\
                                 <tr>\
                                     <td>Tax (${data.message.tax_percent}%)</td>\
                                     <td>${data.message.tax}</td>\
-                                    <td>${data.message.installment_tax}</td>\
+                                    ${installment_tax}\
                                 </tr>\
                             </tbody>\
                             <tfoot>\
                                 <tr>\
                                     <th>Total cost</th>\
                                     <th>${data.message.total_cost}</th>\
-                                    <td>${data.message.total_installment}</td>\
+                                    ${total_installment}\
                                 </tr>\
                             </tfoot>\
                         </table>\
