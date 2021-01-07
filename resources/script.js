@@ -137,7 +137,7 @@ $(document).ready(function () {
                 } 
                 else if (data.status == "400") {
                     // on fail
-                    $("#policyResult").html('failed: ' + data.message);
+                    $("#policyResult").html(data.message);
                 }                                
             }
         );
