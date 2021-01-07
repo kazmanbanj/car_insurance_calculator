@@ -2,10 +2,8 @@ $(document).ready(function () {
     $("#policy_form").submit(function (e) { 
         e.preventDefault();
 
-        // show loading spinner when processing request
         $(".loader").show();
 
-        // assigning the user input to a variable
         var carValue = $("#car_value").val();
         var taxPercent = $("#tax_percent").val();
         var installment = $("#installment").val();
@@ -25,7 +23,6 @@ $(document).ready(function () {
             basePrice = 13;
         };
         
-        // sending an ajax post request to a local server (policyOutput.php) to process the user input
         $.post("./output/policyOutput.php",
             {
                 carValue: carValue,
@@ -34,11 +31,10 @@ $(document).ready(function () {
                 basePrice: basePrice
             },
             function(response){
-                // hide loading spinner when processing completed
                 $(".loader").hide();
 
-                // setting the html content for display
                 var data = JSON.parse(response);
+                
                 if (data.status == "200") {
                     // looping through the number of installment for installment columns
                     var i = 1;
@@ -141,7 +137,7 @@ $(document).ready(function () {
                 } 
                 else if (data.status == "400") {
                     // on fail
-                    $("#policyResult").html('failed: ' + error);
+                    $("#policyResult").html('failed: ' + data.message);
                 }                                
             }
         );
