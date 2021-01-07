@@ -85,7 +85,7 @@ $(document).ready(function () {
                     var len = data.message.installment;
                     var total_installment = "";
                     for (; i <= len; i++) {
-                        total_installment += '<th>' + data.message.total_installment + '</th>';
+                        total_installment += '<td>' + data.message.total_installment + '</td>';
                     }
 
                     // setting the policy html template to display
