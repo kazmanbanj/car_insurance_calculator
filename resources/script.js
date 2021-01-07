@@ -42,7 +42,7 @@ $(document).ready(function () {
 
                 try {
                     if (data.status == "200") {
-                    // displaying result to the user
+                    // setting the policy html template to display
                     var policyHtmlTemplate = `\
                             <h3><u>Output</u></h3>\
                             <table>\
