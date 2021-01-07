@@ -37,10 +37,10 @@ $(document).ready(function () {
                 // hide loading spinner when processing completed
                 $(".loader").hide();
 
-                // setting the html content of the selected element for display
+                // setting the html content for display
                 var data = JSON.parse(response);
                 if (data.status == "200") {
-                    // looping through the installment for number of installment columns
+                    // looping through the number of installment for installment columns
                     var i = 1;
                     var len = data.message.installment;
                     var installment = "";
@@ -48,7 +48,7 @@ $(document).ready(function () {
                         installment += '<th>' + i +  ' installment</th>';
                     }
 
-                    // looping through the installment for value
+                    // looping through the number of installment for value
                     var i = 1;
                     var len = data.message.installment;
                     var empty = "";
@@ -56,7 +56,7 @@ $(document).ready(function () {
                         empty += '<td></td>';
                     }
 
-                    // looping through the installment for installment base premium
+                    // looping through the number of installment for installment base premium
                     var i = 1;
                     var len = data.message.installment;
                     var installment_base_premium = "";
@@ -64,7 +64,7 @@ $(document).ready(function () {
                         installment_base_premium += '<td>' + data.message.installment_base_premium + '</td>';
                     }
 
-                    // looping through the installment for installment commission
+                    // looping through the number of installment for installment commission
                     var i = 1;
                     var len = data.message.installment;
                     var installment_commission = "";
@@ -72,7 +72,7 @@ $(document).ready(function () {
                         installment_commission += '<td>' + data.message.installment_commission + '</td>';
                     }
 
-                    // looping through the installment for installment tax
+                    // looping through the number of installment for installment tax
                     var i = 1;
                     var len = data.message.installment;
                     var installment_tax = "";
@@ -80,7 +80,7 @@ $(document).ready(function () {
                         installment_tax += '<td>' + data.message.installment_tax + '</td>';
                     }
 
-                    // looping through the installment for total installment
+                    // looping through the number of installment for total installment
                     var i = 1;
                     var len = data.message.installment;
                     var total_installment = "";
