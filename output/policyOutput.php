@@ -1,12 +1,10 @@
 <?php
-    // including the calculator logic in PHP built using OOP
     include '../classes/Policy.php';
     
     // declaring an error function to display a validation error message to the user if any
     function error($msg)
     {
-        $response = array("message" => $msg);
-        // encoding to json format.
+        $response = array("status" => "400", "message" => $msg);
         return json_encode($response);
     }
 
@@ -18,123 +16,40 @@
 
     // form validation process (checking for any error from the user input)
     if ($carValue == '' || $taxPercent == '' || $installment == '') {
-        // this will stop the whole process and display the error message set below
         die(error('<b>Please, all fields are required.</b>'));
     }
     
-    if ($carValue < 10000) {
-        die(error('<b>Please, car value must be greater than or equal to 10,000 NGN.</b>'));
+    if ($carValue < 10000 || $carValue > 1000000) {
+        die(error('<b>Please, car value must be between the range of 10,000 NGN and 1,000,000 NGN.</b>'));
     }
 
-    if ($carValue > 1000000) {
-        die(error('<b>Please, car value must be less than or equal to 1,000,000 NGN.</b>'));
+    if ($taxPercent < 0 || $taxPercent > 100) {
+        die(error('<b>Please, tax percent must be between the range of 0 and 100.</b>'));
     }
 
-    if ($taxPercent < 0) {
-        die(error('<b>Please, tax percent must be greater than or equal to 0.</b>'));
-    }
-
-    if ($taxPercent > 100) {
-        die(error('<b>Please, tax percent must be less than or equal to 100.</b>'));
-    }
-
-    if ($installment < 1) {
-        die(error('<b>Please, installment payment must be greater than or equal to 1.</b>'));
-    }
-
-    if ($installment > 12) {
-        die(error('<b>Please, installment payment must be less than or equal to 12.</b>'));
+    if ($installment < 1 || $installment > 12) {
+        die(error('<b>Please, installment payment must be between the range of 1 ad 12.</b>'));
     }
 
     // instantiating the CalculatePolicy class as an object
-    $calculate = new Policy($carValue, $taxPercent, $installment, $basePrice);
+    $carPolicy = new Policy($carValue, $taxPercent, $installment, $basePrice);
 
-    // displaying result to the user     
-    $message = "
-            <h3><u>Output</u></h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Policy</th>";
-                        // looping through the number of installment payments the user entered
-                        for($count=1; $count <= $installment; $count+=1) {
-                            $message .= '<th>'.$count.' instalment</th>';                         
-                        };
-                        // end of looping
-                        
-    $message .= "
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Value </td>
-                        <td>". $calculate->carInsuredValue() . "</td>";
-                        // looping through the number of installment payments the user entered
-                        for($count=1; $count <= $installment; $count+=1) {
-                            $message .= '<td></td>';                         
-                        };  
-                        // end of looping                  
-                    
-    $message .= "
-                    </tr>
-                    <tr>
-                        <td>Base premium (". $basePrice. "%)</td>
-                        <td>". $calculate->basePremium(). "</td>";
-                        // looping through the number of installment payments the user entered
-                        for($count=1; $count <= $installment; $count+=1) {
-                            $message .= '<td>'.$calculate->installmentBasePremium().'</td>';                         
-                        };
-                        // end of looping
-                    
-    $message .= "
-                    </tr>
-                    <tr>
-                        <td>Commission (17%)</td>
-                        <td>". $calculate->commission(). "</td>";
-                        // looping through the number of installment payments the user entered
-                        for($count=1; $count <= $installment; $count+=1) {
-                            $message .= '<td>'.$calculate->installmentCommission().'</td>';                         
-                        };
-                        // end of looping
-                    
-    $message .= "
-                    </tr>
-                    <tr>
-                        <td>Tax (". $taxPercent. "%)</td>
-                        <td>". $calculate->tax(). "</td>";
-                        // looping through the number of installment payments the user entered
-                        for($count=1; $count <= $installment; $count+=1) {
-                            $message .= '<td>'.$calculate->installmentTax().'</td>';                         
-                        };
-                        // end of looping
-                    
-    $message .= "
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th>Total cost</th>
-                        <th>". $calculate->CalculateTotalCost() ."</th>";
-                        // looping through the number of installment payments the user entered
-                        for($count=1; $count <= $installment; $count+=1) {
-                            $message .= '<td>'.$calculate->CalculateTotalInstallment().'</td>';                         
-                        };
-                        // end of looping
-                        
-    $message .= "
-                    </tr>
-                </tfoot>
-            </table>
-        ";
-
-    // on success of the data above, the response is interpreted into php array
-    $response = array();
-
-    // passing the message variable
-    $response["message"] = $message;
-
-    // echoing out the encoded response in JSON representation
+    $data = array (
+        "installment" => $installment,
+        "car_value" => $carPolicy->carInsuredValue(),
+        "base_price" => $basePrice,
+        "base_premium" => $carPolicy->basePremium(),
+        "installment_base_premium" => $carPolicy->installmentBasePremium(),
+        "commission" => $carPolicy->commission(),
+        "installment_commission" => $carPolicy->installmentCommission(),
+        "tax_percent" => $taxPercent,
+        "tax" => $carPolicy->tax(),
+        "installment_tax" => $carPolicy->installmentTax(),
+        "total_cost" => $carPolicy->calculateTotalCost(),
+        "total_installment" => $carPolicy->calculateTotalInstallment()        
+    );
+    
+    $response = array("status" => "200", "message" => $data);
     echo json_encode($response);
 
 ?>
