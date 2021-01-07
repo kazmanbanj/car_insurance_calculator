@@ -39,68 +39,63 @@ $(document).ready(function () {
 
                 // setting the html content of the selected element for display
                 var data = JSON.parse(response);
-
-                try {
-                    if (data.status == "200") {
+                if (data.status == "200") {
                     // setting the policy html template to display
                     var policyHtmlTemplate = `\
-                            <h3><u>Output</u></h3>\
-                            <table>\
-                                <thead>\
-                                    <tr>\
-                                        <th></th>\
-                                        <th>Policy</th>\
-                                        <th>${data.message.installment} installment</th>\
-                                    </tr>\
-                                </thead>\
-                                <tbody>\
-                                    <tr>\
-                                        <td>Value </td>\
-                                        <td> ${data.message.car_value} </td>\
-                                        <td></td>\
-                                    </tr>\
-                                    <tr>\
-                                        <td>Base premium (${data.message.base_price}%)</td>\
-                                        <td>${data.message.base_premium}</td>\
-                                        <td>${data.message.installment_base_premium}</td>\
-                                    </tr>\
-                                    <tr>\
-                                        <td>Commission (17%)</td>\
-                                        <td>${data.message.commission}</td>\
-                                        <td>${data.message.installment_commission}</td>\
-                                    </tr>\
-                                    <tr>\
-                                        <td>Tax (${data.message.tax_percent}%)</td>\
-                                        <td>${data.message.tax}</td>\
-                                        <td>${data.message.installment_tax}</td>\
-                                    </tr>\
-                                </tbody>\
-                                <tfoot>\
-                                    <tr>\
-                                        <th>Total cost</th>\
-                                        <th>${data.message.total_cost}</th>\
-                                        <td>${data.message.total_installment}</td>\
-                                    </tr>\
-                                </tfoot>\
-                            </table>\
-                        `;
+                        <h3><u>Output</u></h3>\
+                        <table>\
+                            <thead>\
+                                <tr>\
+                                    <th></th>\
+                                    <th>Policy</th>\
+                                    <th>${data.message.installment} installment</th>\
+                                </tr>\
+                            </thead>\
+                            <tbody>\
+                                <tr>\
+                                    <td>Value </td>\
+                                    <td> ${data.message.car_value} </td>\
+                                    <td></td>\
+                                </tr>\
+                                <tr>\
+                                    <td>Base premium (${data.message.base_price}%)</td>\
+                                    <td>${data.message.base_premium}</td>\
+                                    <td>${data.message.installment_base_premium}</td>\
+                                </tr>\
+                                <tr>\
+                                    <td>Commission (17%)</td>\
+                                    <td>${data.message.commission}</td>\
+                                    <td>${data.message.installment_commission}</td>\
+                                </tr>\
+                                <tr>\
+                                    <td>Tax (${data.message.tax_percent}%)</td>\
+                                    <td>${data.message.tax}</td>\
+                                    <td>${data.message.installment_tax}</td>\
+                                </tr>\
+                            </tbody>\
+                            <tfoot>\
+                                <tr>\
+                                    <th>Total cost</th>\
+                                    <th>${data.message.total_cost}</th>\
+                                    <td>${data.message.total_installment}</td>\
+                                </tr>\
+                            </tfoot>\
+                        </table>\
+                    `;
 
-                        // on success
-                        $("#policyResult").html(policyHtmlTemplate);
+                    // on success
+                    $("#policyResult").html(policyHtmlTemplate);
 
-                        // setting the input values back to default after completing process
-                        $("#car_value").val(10000);
-                        $("#tax_percent").val(0);
-                        $("#installment").val(1);
-                    } 
-                } catch(err) {
-                    if (data.status == "400") {
-                        // on fail
-                        $("#policyResult").html(err.message);
-                    }
-                }                
+                    // setting the input values back to default after completing process
+                    $("#car_value").val(10000);
+                    $("#tax_percent").val(0);
+                    $("#installment").val(1);
+                } 
+                else if (data.status == "400") {
+                    // on fail
+                    $("#policyResult").html('failed: ' + error);
+                }                                
             }
         );
-    })
-    
+    })    
 })

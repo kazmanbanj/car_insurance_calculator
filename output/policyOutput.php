@@ -46,7 +46,7 @@
         "tax" => $carPolicy->tax(),
         "installment_tax" => $carPolicy->installmentTax(),
         "total_cost" => $carPolicy->calculateTotalCost(),
-        "total_installment" => $carPolicy->calculateTotalInstallment()        
+        "total_installment" => $carPolicy->calculateTotalInstallment()
     );
     
     $response = array("status" => "200", "message" => $data);
